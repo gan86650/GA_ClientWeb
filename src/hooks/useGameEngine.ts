@@ -11,12 +11,13 @@ type Action =
 
 const initialState: GameState = {
   materialDeck: [], mainDeck: [], hand: [],
-  materialZone: [], battleZone: [], graveyard: [], memory: []
+  materialZone: [], battleZone: [], graveyard: [], banished: [], memory: []
 };
 
 // Helper: 尋找並移除卡片
 const findAndRemoveCard = (state: GameState, uid: string): { card: GameCard, newState: GameState } | null => {
-  const zones: ZoneKey[] = ['hand', 'materialZone', 'battleZone', 'graveyard', 'memory', 'materialDeck', 'mainDeck'];
+  // 搜尋所有區域，包含新增的 banished
+  const zones: ZoneKey[] = ['hand', 'materialZone', 'battleZone', 'graveyard', 'banished', 'memory', 'materialDeck', 'mainDeck'];
   for (const zone of zones) {
     const list = state[zone];
     const index = list.findIndex(c => c.uid === uid);
@@ -59,6 +60,8 @@ function gameReducer(state: GameState, action: Action): GameState {
           hand: toggle(state.hand),
           materialZone: toggle(state.materialZone),
           battleZone: toggle(state.battleZone),
+          memory: toggle(state.memory),
+          banished: toggle(state.banished),
       };
     }
     default: return state;

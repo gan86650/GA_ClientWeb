@@ -23,6 +23,7 @@ export interface GameState {
   materialZone: GameCard[];
   battleZone: GameCard[];
   graveyard: GameCard[];
+  banished: GameCard[]; // [New] 支援 Banish Zone
   memory: GameCard[];
 }
 
